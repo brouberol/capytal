@@ -1,5 +1,7 @@
 # Django settings for capytal project.
 
+import os
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -57,6 +59,8 @@ MEDIA_ROOT = ''
 # Examples: "http://example.com/media/", "http://media.example.com/"
 MEDIA_URL = ''
 
+SECRET_KEY = os.environ['SECRET_KEY']
+
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
@@ -81,9 +85,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '6%rluekmkh&&x!#^(c&w8es^0m^qu8-e&k6t@ewxl8az#40(@o'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
