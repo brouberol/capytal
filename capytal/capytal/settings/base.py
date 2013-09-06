@@ -79,6 +79,11 @@ STATICFILES_DIRS = (
     PROJECT_DIR.child('assets'),
 )
 
+# Locations of fixture files
+FIXTURE_DIRS = (
+    PROJECT_DIR.child('category').child('fixtures'),
+)
+
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -122,7 +127,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'expense'
+    'expense',
+    'category',
 )
 
 # A sample logging configuration. The only tangible logging
