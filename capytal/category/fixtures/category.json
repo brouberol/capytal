@@ -1,1 +1,114 @@
-[{"pk": 1, "model": "category.category", "fields": {"name": "EDF", "slug": "edf"}}, {"pk": 2, "model": "category.category", "fields": {"name": "Gaz", "slug": "gaz"}}, {"pk": 3, "model": "category.category", "fields": {"name": "Eau", "slug": "eau"}}, {"pk": 4, "model": "category.category", "fields": {"name": "Internet, TV, T\u00e9l\u00e9phone", "slug": "internet-tv-telephone"}}, {"pk": 5, "model": "category.category", "fields": {"name": "Loyer", "slug": "loyer"}}, {"pk": 6, "model": "category.category", "fields": {"name": "Alimentation", "slug": "alimentation"}}, {"pk": 7, "model": "category.category", "fields": {"name": "Produits d'entretien", "slug": "produits-dentretien"}}, {"pk": 8, "model": "category.category", "fields": {"name": "Boissons alcoolis\u00e9es", "slug": "boissons-alcoolisees"}}, {"pk": 9, "model": "category.category", "fields": {"name": "Restaurant", "slug": "restaurant"}}, {"pk": 10, "model": "category.category", "fields": {"name": "Livraison", "slug": "livraison"}}, {"pk": 11, "model": "category.category", "fields": {"name": "Soir\u00e9es", "slug": "soirees"}}, {"pk": 12, "model": "category.category", "fields": {"name": "Mobilier, d\u00e9co", "slug": "mobilier-deco"}}, {"pk": 13, "model": "category.category", "fields": {"name": "Jardin", "slug": "jardin"}}, {"pk": 14, "model": "category.category", "fields": {"name": "Autre", "slug": "autre"}}]
+[
+{
+  "pk": 1,
+  "model": "category.category",
+  "fields": {
+    "name": "EDF",
+    "slug": "edf"
+  }
+},
+{
+  "pk": 2,
+  "model": "category.category",
+  "fields": {
+    "name": "Gaz",
+    "slug": "gaz"
+  }
+},
+{
+  "pk": 3,
+  "model": "category.category",
+  "fields": {
+    "name": "Eau",
+    "slug": "eau"
+  }
+},
+{
+  "pk": 4,
+  "model": "category.category",
+  "fields": {
+    "name": "Internet, TV, T\u00e9l\u00e9phone",
+    "slug": "internet-tv-telephone"
+  }
+},
+{
+  "pk": 5,
+  "model": "category.category",
+  "fields": {
+    "name": "Loyer",
+    "slug": "loyer"
+  }
+},
+{
+  "pk": 6,
+  "model": "category.category",
+  "fields": {
+    "name": "Alimentation",
+    "slug": "alimentation"
+  }
+},
+{
+  "pk": 7,
+  "model": "category.category",
+  "fields": {
+    "name": "Produits d'entretien",
+    "slug": "produits-dentretien"
+  }
+},
+{
+  "pk": 8,
+  "model": "category.category",
+  "fields": {
+    "name": "Boissons alcoolis\u00e9es",
+    "slug": "boissons-alcoolisees"
+  }
+},
+{
+  "pk": 9,
+  "model": "category.category",
+  "fields": {
+    "name": "Restaurant",
+    "slug": "restaurant"
+  }
+},
+{
+  "pk": 10,
+  "model": "category.category",
+  "fields": {
+    "name": "Livraison",
+    "slug": "livraison"
+  }
+},
+{
+  "pk": 11,
+  "model": "category.category",
+  "fields": {
+    "name": "Soir\u00e9es",
+    "slug": "soirees"
+  }
+},
+{
+  "pk": 12,
+  "model": "category.category",
+  "fields": {
+    "name": "Mobilier, d\u00e9co",
+    "slug": "mobilier-deco"
+  }
+},
+{
+  "pk": 13,
+  "model": "category.category",
+  "fields": {
+    "name": "Jardin",
+    "slug": "jardin"
+  }
+},
+{
+  "pk": 14,
+  "model": "category.category",
+  "fields": {
+    "name": "Autre",
+    "slug": "autre"
+  }
+}
+]
