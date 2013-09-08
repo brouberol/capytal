@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ul>
+        {% for expense in expense_list %}
+            <li>{{ expense }}
+        {% endfor %}
+    </ul>
+{% endblock content %}
