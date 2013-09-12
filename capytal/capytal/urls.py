@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'capytal.views.homepage', name='homepage'),
+    url(r'^login/', 'capytal.views.user_login', name='user_login'),
+    url(r'^logout/', 'capytal.views.user_logout', name='user_logout'),
     url(r'^expense/', include('expense.urls')),
     url(r'^roommate/', include('roommate.urls')),
 )
