@@ -3,7 +3,7 @@ General application wide views.
 """
 
 from django.contrib.auth.views import login, logout
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 
 
@@ -18,4 +18,6 @@ def user_login(request, *args, **kwargs):
 
 
 def user_logout(request, *args, **kwargs):
-    return logout(request, template_name='base.html', *args, **kwargs)
+    """Log the user out and redirect him/her to the homepage"""
+    logout(request, *args, **kwargs)
+    return redirect('capytal.views.homepage')
