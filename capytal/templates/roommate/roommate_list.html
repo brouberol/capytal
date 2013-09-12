@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ul>
+        {% for roommate in roommate_list %}
+            <li>{{ roommate }}
+        {% endfor %}
+    </ul>
+{% endblock content %}
