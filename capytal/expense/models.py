@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import division
+
+
 from django.db import models
-from django.conf import settings
 from django.core.validators import MinValueValidator
-from django.db.models.signals import pre_save, pre_delete
+from django.db.models.signals import pre_save, pre_delete, m2m_changed
 
 from category.models import Category
 from roommate.models import Roommate
+from .utils import balance_share
 
 
 class Expense(models.Model):
@@ -16,8 +19,7 @@ class Expense(models.Model):
     amount = models.FloatField(
         validators=[MinValueValidator(0)], verbose_name=u'montant')
     recipients = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='+',
-        verbose_name=u'bénéficiaires')
+        Roommate, related_name='+', verbose_name=u'bénéficiaires')
     name = models.CharField(max_length=100, verbose_name=u'nom')
     date = models.DateField()
     category =  models.ForeignKey(Category, related_name='+', verbose_name=u'catégorie')
@@ -30,30 +32,80 @@ class Expense(models.Model):
         verbose_name_plural = u'dépenses'
 
 
-def increment_owner_balance(sender, instance, raw, using, **kwargs):
-    """Increment the expense owner balance before the expense is saved
-    for the first time or when the amount has been updated.
+def pre_save_increment_owner_balance(sender, instance, raw, using, **kwargs):
+    """Update the recipients expense balance after an expense amount
+    is updated.
 
     """
-    owner = instance.owner
     if instance.id:
-        # Existing Expense has been modified
-        old_expense = Expense.objects.get(id=instance.id)
-        if old_expense.amount != instance.amount:
-            owner.balance += (instance.amount - old_expense.amount)
-            owner.save()
+        old = Expense.objects.get(id=instance.id)
+        if old.amount != instance.amount:
+            for recipient in instance.recipients.all():
+                recipient.balance -= balance_share(
+                    old, recipient, old.recipients.count())
+                recipient.balance += balance_share(
+                    instance, recipient, instance.recipients.count())
+                recipient.save()
     else:
-        # New Expense is saved to DB
-        owner.balance += instance.amount
-        owner.save()
+        instance.created = True
 
 
-def decrement_owner_balance(sender, instance, using, **kwargs):
-    """Decrement the expense owner balance before the expense is deleted."""
-    owner = instance.owner
-    owner.balance -= instance.amount
-    owner.save()
+def m2m_changed_increment_owner_balance(sender, instance, action, reverse,
+                                       model, pk_set, using, **kwargs):
+    """Increment the expense recipients balance after it is created for the
+    first time, updated or if some recipients are deleted.
+
+    """
+    # Recipients are added
+    if action == 'post_add':
+        # Newly created expense
+        if hasattr(instance, 'created') and instance.created:
+            for recipient in instance.recipients.all():
+                recipient.balance += balance_share(
+                    instance, recipient, instance.recipients.count())
+                recipient.save()
+            del instance.created
+
+        # Existing expense with added recipients
+        elif len(pk_set) != instance.recipients.count():
+            old_recipients = [
+                r for r in instance.recipients.all() if r.id not in pk_set]
+            for recipient in instance.recipients.all():
+                # The old recipients need to have their old balance canceled first
+                if recipient in old_recipients:
+                    recipient.balance -= balance_share(
+                        instance, recipient, len(old_recipients))
+                recipient.balance += balance_share(
+                    instance, recipient, instance.recipients.count())
+                recipient.save()
+
+    # Recipients are deleted
+    elif action == 'pre_remove':
+        new_recipients = [
+            r for r in instance.recipients.all() if r.id not in pk_set]
+        for recipient in instance.recipients.all():
+            recipient.balance -= balance_share(
+                instance, recipient, instance.recipients.count())
+            if recipient in new_recipients:
+                recipient.balance += balance_share(
+                    instance, recipient, len(new_recipients))
+            recipient.save()
 
 
-pre_save.connect(increment_owner_balance, sender=Expense)
-pre_delete.connect(decrement_owner_balance, sender=Expense)
+def pre_delete_decrement_owner_balance(sender, instance, using, **kwargs):
+    """Decrement the expense recipients balance before the expense is deleted.
+
+    """
+    for recipient in instance.recipients.all():
+        recipient.balance -= balance_share(
+            instance, recipient, instance.recipients.count())
+        recipient.save()
+
+
+# Connect signals
+pre_save.connect(
+    pre_save_increment_owner_balance, sender=Expense)
+pre_delete.connect(
+    pre_delete_decrement_owner_balance, sender=Expense)
+m2m_changed.connect(
+    m2m_changed_increment_owner_balance, sender=Expense.recipients.through)
