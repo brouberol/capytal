@@ -2,6 +2,7 @@
 
 from __future__ import division
 
+import datetime
 
 from django.db import models
 from django.core.validators import MinValueValidator
@@ -21,7 +22,7 @@ class Expense(models.Model):
     recipients = models.ManyToManyField(
         Roommate, related_name='+', verbose_name=u'bénéficiaires')
     name = models.CharField(max_length=100, verbose_name=u'nom')
-    date = models.DateField()
+    date = models.DateField(default=datetime.date.today())
     category =  models.ForeignKey(Category, related_name='+', verbose_name=u'catégorie')
 
     def __unicode__(self):
