@@ -2,3 +2,4 @@ Django==1.5
 psycopg2==2.5.1
 Unipath==1.0
 South==0.8.2
+django-braces==1.2.2
