@@ -5,12 +5,13 @@ from django.conf import settings
 from django.core.validators import MinValueValidator
 
 from category.models import Category
+from roommate.models import Roommate
 
 
 class Expense(models.Model):
     """The Expense class holds information about who spend what and when"""
     owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='+', verbose_name=u'émetteur')
+        Roommate, related_name='expenses', verbose_name=u'émetteur')
     amount = models.FloatField(
         validators=[MinValueValidator(0)], verbose_name=u'montant')
     recipients = models.ManyToManyField(
