@@ -10,18 +10,9 @@
 
     <form method="post" action="{% url 'user_login' %}">
         {% csrf_token %}
-        <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-        </tr>
-        </table>
+        {{ form.as_p }}
 
-        <input type="submit" value="/login" />
+        <input type="submit" value="Se connecter" />
         {% if next %}
             <input type="hidden" name="next" value="{{ next }}"/>
         {% else %}
@@ -29,4 +20,4 @@
         {% endif %}
     </form>
 {% endif %}
-{% endblock %}
+{% endblock content %}
