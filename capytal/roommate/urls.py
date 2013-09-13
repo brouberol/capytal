@@ -11,8 +11,8 @@ from .views import RoommateDetailView
 
 
 urlpatterns = patterns('',
-    url(r'^(?P<pk>\d+)$', RoommateDetailView.as_view(), name="roommate-display"),
-    url(r'^$', RoommateListView.as_view(), name="roommate-list"),
-    url(r'^new$', RoommateCreateView.as_view(), name="roommate-create"),
-    url(r'^(?P<pk>\d+)/update$', RoommateUpdateView.as_view(), name="roommate-update"),
+    url(r'^(?P<pk>\d+)$', RoommateDetailView.as_view(), name="roommate_display"),
+    url(r'^$', RoommateListView.as_view(), name="roommate_list"),
+    url(r'^new$', RoommateCreateView.as_view(), name="roommate_create"),
+    url(r'^(?P<pk>\d+)/update$', RoommateUpdateView.as_view(), name="roommate_update"),
 )
