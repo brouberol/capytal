@@ -19,7 +19,7 @@ class Expense(models.Model):
         settings.AUTH_USER_MODEL, related_name='+',
         verbose_name=u'bénéficiaires')
     name = models.CharField(max_length=100, verbose_name=u'nom')
-    date = models.DateTimeField()
+    date = models.DateField()
     category =  models.ForeignKey(Category, related_name='+', verbose_name=u'catégorie')
 
     def __unicode__(self):
