@@ -24,7 +24,7 @@ class RoommateCreateView(CreateView):
     def get_success_url(self):
         """Return the URL of the user account display"""
         r_id = Roommate.objects.get(user__id=self.object.id).id
-        return reverse('roommate-display', kwargs={'pk': r_id})
+        return reverse('roommate_display', kwargs={'pk': r_id})
 
 
 class RoommateUpdateView(UpdateView):
