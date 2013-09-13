@@ -35,9 +35,11 @@ class Expense(models.Model):
 
 def pre_save_increment_owner_balance(sender, instance, raw, using, **kwargs):
     """Update the recipients expense balance after an expense amount
-    is updated.
+    is updated or attach a 'created' marker to the Expense if it has just
+    been created.
 
     """
+    # If the expense already exists in database, update each recipient balance
     if instance.id:
         old = Expense.objects.get(id=instance.id)
         if old.amount != instance.amount:
@@ -48,6 +50,8 @@ def pre_save_increment_owner_balance(sender, instance, raw, using, **kwargs):
                     instance, recipient, instance.recipients.count())
                 recipient.save()
     else:
+        # Mark the Expense as newly created, so that it can be appropriatly
+        # treated when saving the recipients many to many relationship members
         instance.created = True
 
 
@@ -62,8 +66,8 @@ def m2m_changed_increment_owner_balance(sender, instance, action, reverse,
         # Newly created expense
         if hasattr(instance, 'created') and instance.created:
             for recipient in instance.recipients.all():
-                recipient.balance += balance_share(
-                    instance, recipient, instance.recipients.count())
+                recipient.balance += balance_share(instance, recipient,
+                                                   instance.recipients.count())
                 recipient.save()
             del instance.created
 
@@ -74,10 +78,10 @@ def m2m_changed_increment_owner_balance(sender, instance, action, reverse,
             for recipient in instance.recipients.all():
                 # The old recipients need to have their old balance canceled first
                 if recipient in old_recipients:
-                    recipient.balance -= balance_share(
-                        instance, recipient, len(old_recipients))
-                recipient.balance += balance_share(
-                    instance, recipient, instance.recipients.count())
+                    recipient.balance -= balance_share(instance, recipient,
+                                                       len(old_recipients))
+                recipient.balance += balance_share(instance, recipient,
+                                                   instance.recipients.count())
                 recipient.save()
 
     # Recipients are deleted
@@ -85,11 +89,12 @@ def m2m_changed_increment_owner_balance(sender, instance, action, reverse,
         new_recipients = [
             r for r in instance.recipients.all() if r.id not in pk_set]
         for recipient in instance.recipients.all():
-            recipient.balance -= balance_share(
-                instance, recipient, instance.recipients.count())
+            recipient.balance -= balance_share(instance, recipient,
+                                               instance.recipients.count())
+            # rectificate the balance of kept recipients
             if recipient in new_recipients:
-                recipient.balance += balance_share(
-                    instance, recipient, len(new_recipients))
+                recipient.balance += balance_share(instance, recipient,
+                                                   len(new_recipients))
             recipient.save()
 
 
