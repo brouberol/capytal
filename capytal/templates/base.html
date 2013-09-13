@@ -27,11 +27,25 @@
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
-        {% if user.is_authenticated %}
-            <p>{{ user.username }}</p>
-        {% endif %}
 
-        {% block content %}{% endblock content %}
+        {% block user %}
+        {% if user.is_authenticated %}
+                <p><a href="{% url 'user_logout' %}">Se déconnecter</a></p>
+            {% else %}
+                <ul>
+                    <li><a href="{% url 'user_login' %}">Se connecter</a></li>
+                    <li><a href="{% url 'roommate_create' %}">S'inscrire</a></li>
+                </ul>
+            {% endif %}
+        {% endblock user %}
+
+
+        {% block content %}
+            {% if user.is_authenticated %}
+                <p>Bonjour {{ user.username }}!</p>
+            {% endif %}
+        {% endblock content %}
+
         {% block footer %}
             <footer>
                 <p>--<br/>Captytal</p>

@@ -1,9 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <ul>
-        {% for expense in expense_list %}
-            <li>{{ expense }}
-        {% endfor %}
-    </ul>
+    <h1>Liste des dépenses de {{ user.username }}</h1>
+    {% if expense_list %}
+        <ul>
+            {% for expense in expense_list %}
+                <li>{{ expense.name }} ({{ expense.category.name }}) - {{ expense.amount }}€ - {{ expense.date }}</li>
+                    <a href="{% url 'expense_update' pk=expense.id %}">Modifier</a>
+                    <form action="{% url 'expense_delete' pk=expense.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="X" />
+                    </form>
+
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Pas de dépenses pour le moment...</p>
+    {% endif %}
+
+    <a href="{% url 'expense_create' %}">Ajouter une dépense</a>
+
+    <p>Total des dépenses: {{ balance }}€</p>
 {% endblock content %}
