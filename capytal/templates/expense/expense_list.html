@@ -8,13 +8,7 @@
                 <li>{{ expense.name }} ({{ expense.category.name }}) - {{ expense.amount }}€ -
 
                     {# comment: display the name of all the expense recipîents #}
-                    {% for recipient in expense.recipients.all %}
-                        {% if not forloop.last %}
-                            {{ recipient }},
-                        {% else %}
-                            {{ recipient }}
-                        {% endif %}
-                    {% endfor %}
+                    {{ expense.recipients.all | join:", " }}
 
                      - {{ expense.date }}</li>
                     <a href="{% url 'expense_update' pk=expense.id %}">Modifier</a>
