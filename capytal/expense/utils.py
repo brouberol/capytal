@@ -2,6 +2,8 @@
 Utility functions related to the Expense model
 """
 
+from __future__ import division
+
 
 def balance_share(expense, recipient, nb_recipients):
     """Return the expense share of the recipient given the number of
@@ -11,7 +13,6 @@ def balance_share(expense, recipient, nb_recipients):
     else, it will be negative.
 
     """
-    share = expense.amount / nb_recipients
     if recipient == expense.owner:
-        return share
-    return -share
+        return (nb_recipients - 1) * expense.amount / nb_recipients
+    return -expense.amount / nb_recipients
