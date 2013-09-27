@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>{{ roommate }}</p>
+    <p>{{ category }}</p>
+    <ul>
+        {% for expense in expense_list %}
+            <li>{{ expense }}
+        {% endfor %}
+    </ul>
+{% endblock content %}
