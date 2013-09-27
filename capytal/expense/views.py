@@ -27,7 +27,7 @@ class ExpenseListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ExpenseListView, self).get_context_data(**kwargs)
         roommate = Roommate.objects.get(user=self.request.user)
-        expenses = Expense.objects.filter(owner=roommate)
+        expenses = Expense.objects.filter(owner=roommate).order_by('-date')
         context['balance'] = str(roommate.balance)
         context['expense_list'] = expenses
         return context

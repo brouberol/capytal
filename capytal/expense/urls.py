@@ -11,10 +11,13 @@ from .views import ExpenseDetailView
 from .views import ExpenseDeleteView
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^(?P<pk>\d+)$', ExpenseDetailView.as_view(), name="expense_display"),
-    url(r'^$', ExpenseListView.as_view(), name="expense_list"),
+    url(r'^last$', ExpenseListView.as_view(), name="expense_list"),
     url(r'^new$', ExpenseCreateView.as_view(), name="expense_create"),
-    url(r'^(?P<pk>\d+)/update$', ExpenseUpdateView.as_view(), name="expense_update"),
-    url(r'^(?P<pk>\d+)/delete$', ExpenseDeleteView.as_view(), name="expense_delete"),
+    url(r'^(?P<pk>\d+)/update$',
+        ExpenseUpdateView.as_view(), name="expense_update"),
+    url(r'^(?P<pk>\d+)/delete$',
+        ExpenseDeleteView.as_view(), name="expense_delete"),
 )
